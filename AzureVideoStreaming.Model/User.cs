@@ -16,7 +16,7 @@ namespace AzureVideoStreaming.Model
         public User(string name)
         {
             PartitionKey = TableStorageConstants.UserPartitionKey;
-            RowKey = Guid.NewGuid().ToString();
+            //RowKey = Guid.NewGuid().ToString();
             Timestamp = DateTime.Now;
             Username = name;
         }

@@ -7,6 +7,8 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using AzureVideoStreaming.Model;
+using AzureVideoStreaming.WebACS.Models;
+using System.Web.Security;
 
 namespace AzureVideoStreaming.WebACS.Content
 {
@@ -27,18 +29,23 @@ namespace AzureVideoStreaming.WebACS.Content
 
         public ActionResult Index()
         {
-            
+            if (User.Identity.IsAuthenticated && string.IsNullOrEmpty(User.Identity.Name))
+                return RedirectToAction("Register");
             return View(_videoRepository.GetActive());
         }
 
         public ActionResult Upload()
         {
+            if (User.Identity.IsAuthenticated && string.IsNullOrEmpty(User.Identity.Name))
+                return RedirectToAction("Register");
             return View();
         }
 
         [HttpPost]
         public ActionResult Upload(string title, string description, HttpPostedFileBase file)
         {
+            if (User.Identity.IsAuthenticated && string.IsNullOrEmpty(User.Identity.Name))
+                return RedirectToAction("Register");
             try
             {
                 if (file.ContentLength > 0)
@@ -76,9 +83,42 @@ namespace AzureVideoStreaming.WebACS.Content
             return View();
         }
 
+        [HttpGet]
         public ActionResult Register()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(HomeRegisterVM model)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var identity = Thread.CurrentPrincipal.Identity as System.Security.Claims.ClaimsIdentity;
+            var claim = identity.Claims.FirstOrDefault(t => t.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+            string token = "";
+            if (claim != null)
+                token = claim.Value;
+            if (string.IsNullOrEmpty(token))
+                return View();
+
+            var user = this.userRepository.Get(token);
+            if (user != null)
+                return View();//user registered
+
+            var savedUser = this.userRepository.Add(new User()
+            {
+                Username = model.Username,
+                RowKey = token
+            });
+            if(savedUser!=null)
+            {
+                FormsAuthentication.SetAuthCookie(model.Username, true);
+                return RedirectToAction("Index");
+            }
+            else
+                return View();
         }
     }
 }
