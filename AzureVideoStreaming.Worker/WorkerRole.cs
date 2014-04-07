@@ -23,7 +23,7 @@ namespace AzureVideoStreaming.Worker
             while (true)
             {
                 CheckJobs();
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
                 
             }
         }
