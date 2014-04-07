@@ -64,12 +64,23 @@ namespace AzureVideoStreaming.Core
                 "H264 Broadband 720p",
                 Microsoft.WindowsAzure.MediaServices.Client.TaskOptions.ProtectedConfiguration);
 
+            // Create a task with the encoding details, using a string preset.
+            ITask taskVc1 = job.Tasks.AddNew("VC1-" + Guid.NewGuid(),
+                processor,
+                "VC1 Broadband 720p",
+                Microsoft.WindowsAzure.MediaServices.Client.TaskOptions.ProtectedConfiguration);
+
             // Specify the input asset to be encoded.
             task.InputAssets.Add(asset);
+            taskVc1.InputAssets.Add(asset);
+
             // Add an output asset to contain the results of the job. 
             // This output is specified as AssetCreationOptions.None, which 
             // means the output asset is not encrypted. 
-            task.OutputAssets.AddNew("Output asset",
+            task.OutputAssets.AddNew("H264 asset",
+                AssetCreationOptions.None);
+
+            taskVc1.OutputAssets.AddNew("VC1 asset",
                 AssetCreationOptions.None);
 
             const string configuration = @"<?xml version=""1.0"" encoding=""utf-16""?>
@@ -106,35 +117,37 @@ namespace AzureVideoStreaming.Core
             if (job.State == JobState.Finished)
             {
                 // Get a reference to the output asset from the job.
-                IAsset outputAsset = job.OutputMediaAssets[0];
-
-                var streamingAssetId = outputAsset.Id;
-                const int daysForWhichStreamingUrlIsActive = 365;
-                var streamingAsset = _context.Assets.Where(a => a.Id == streamingAssetId).FirstOrDefault();
-                var accessPolicy = _context.AccessPolicies.Create(streamingAsset.Name, TimeSpan.FromDays(daysForWhichStreamingUrlIsActive),
-                                                         AccessPermissions.Read | AccessPermissions.List);
-
-                var assetFiles = streamingAsset.AssetFiles.ToList();
-
-                var streamingAssetFile = assetFiles.Where(f => f.Name.ToLower().EndsWith(".mp4")).FirstOrDefault();
-                if (streamingAssetFile != null)
+                
+                foreach (var outputAsset in job.OutputMediaAssets)
                 {
-                    var locator = _context.Locators.CreateLocator(LocatorType.Sas, streamingAsset, accessPolicy);
-                    var uri = new UriBuilder(locator.Path);
-                    uri.Path += "/" + streamingAssetFile.Name;
-                    mp4Url = uri.ToString();
+                    var streamingAssetId = outputAsset.Id;
+                    const int daysForWhichStreamingUrlIsActive = 365;
+                    var streamingAsset = _context.Assets.Where(a => a.Id == streamingAssetId).FirstOrDefault();
+                    var accessPolicy = _context.AccessPolicies.Create(streamingAsset.Name,
+                        TimeSpan.FromDays(daysForWhichStreamingUrlIsActive),
+                        AccessPermissions.Read | AccessPermissions.List);
+
+                    var assetFiles = streamingAsset.AssetFiles.ToList();
+
+                    var streamingAssetFile = assetFiles.Where(f => f.Name.ToLower().EndsWith(".mp4")).FirstOrDefault();
+                    if (streamingAssetFile != null)
+                    {
+                        var locator = _context.Locators.CreateLocator(LocatorType.Sas, streamingAsset, accessPolicy);
+                        var uri = new UriBuilder(locator.Path);
+                        uri.Path += "/" + streamingAssetFile.Name;
+                        mp4Url = uri.ToString();
+                    }
+
+                    streamingAssetFile = assetFiles.Where(f => f.Name.ToLower().EndsWith(".wmv")).FirstOrDefault();
+                    if (streamingAssetFile != null)
+                    {
+                        var locator = _context.Locators.CreateLocator(LocatorType.Sas, streamingAsset, accessPolicy);
+                        var uri = new UriBuilder(locator.Path);
+                        uri.Path += "/" + streamingAssetFile.Name;
+                        vc1Url = uri.ToString();
+                    }
+
                 }
-
-                streamingAssetFile = assetFiles.Where(f => f.Name.ToLower().EndsWith(".wmv")).FirstOrDefault();
-                if (streamingAssetFile != null)
-                {
-                    var locator = _context.Locators.CreateLocator(LocatorType.Sas, streamingAsset, accessPolicy);
-                    var uri = new UriBuilder(locator.Path);
-                    uri.Path += "/" + streamingAssetFile.Name;
-                    vc1Url = uri.ToString();
-                }
-
-
             }
 
             return job.State;

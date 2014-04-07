@@ -22,18 +22,25 @@ namespace AzureVideoStreaming.WebJob
 
         private static void CheckJobs()
         {
-            var rep = new VideoEncodingQueueRepository();
+            var videoEncodingQueueRepository = new VideoEncodingQueueRepository();
+            var videoRepository = new VideoRepository();
 
-            var queued = rep.GetAll();
+            var queued = videoEncodingQueueRepository.GetAll();
 
             var videoService = new VideoService();
 
-            foreach (var video in queued)
+            foreach (var queuedVideo in queued)
             {
                 string mp4Url, vc1Url;
-                if (videoService.GetJobOutput(video.MediaServicesJobId, out mp4Url, out vc1Url) == JobState.Finished)
+                if (videoService.GetJobOutput(queuedVideo.MediaServicesJobId, out mp4Url, out vc1Url) == JobState.Finished)
                 {
-                    // TODO: update video entity and delete entity from videoqueue table
+                    Console.WriteLine("Job finished: " + queuedVideo.MediaServicesJobId);
+                    var video = videoRepository.Get(queuedVideo.VideoId);
+                    video.UrlMp4 = mp4Url;
+                    video.UrlVc1 = vc1Url;
+                    videoRepository.Update(video);
+
+                    videoEncodingQueueRepository.Remove(queuedVideo.RowKey);
                 }
             }
         }
