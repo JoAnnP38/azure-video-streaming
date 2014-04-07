@@ -15,7 +15,7 @@ namespace AzureVideoStreaming.Model
 
         public Video(string authorId, string title, string description, string urlMp4, string urlVc1, string thumbnailUrl, DateTime dateUploaded)
         {
-            PartitionKey = "Video";
+            PartitionKey = TableStorageConstants.VideoPartitionKey;
             RowKey = Guid.NewGuid().ToString();
             Timestamp = DateTime.Now;
 

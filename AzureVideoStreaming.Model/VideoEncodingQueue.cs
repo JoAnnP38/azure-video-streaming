@@ -12,7 +12,7 @@ namespace AzureVideoStreaming.Model
         public VideoEncodingQueue(string videoId, string mediaServiceJobId)
         {
             RowKey = Guid.NewGuid().ToString();
-            PartitionKey = "VideoEncodingQueue";
+            PartitionKey = TableStorageConstants.VideoEncodingQueuePartitionKey;
             Timestamp = DateTime.Now;
 
             VideoId = videoId;
