@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AzureVideoStreaming.Model;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -13,9 +14,11 @@ namespace AzureVideoStreaming.Core
     {
         private readonly CloudStorageAccount _storageAccount;
 
-        public VideoRepository(CloudStorageAccount storageAccount)
+        public VideoRepository()
         {
-            _storageAccount = storageAccount;
+            // Retrieve the storage account from the connection string.
+            _storageAccount = CloudStorageAccount.Parse(
+                CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             var client = _storageAccount.CreateCloudTableClient();
             var table = client.GetTableReference(TableStorageConstants.VideoTableKey);
@@ -43,7 +46,19 @@ namespace AzureVideoStreaming.Core
             var insertOperation = TableOperation.Insert(video);
             table.Execute(insertOperation);
 
-            return null;
+            return video;
         }
+
+        public IList<Video> GetAll()
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.VideoTableKey);
+
+            TableQuery<Video> query = new TableQuery<Video>();
+            return table.ExecuteQuery(query).ToList();
+
+        } 
+
+
     }
 }
