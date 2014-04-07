@@ -91,13 +91,13 @@ namespace AzureVideoStreaming.Core
 
                 var streamingAssetId = outputAsset.Id;
                 const int daysForWhichStreamingUrlIsActive = 365;
-                var streamingAsset = _context.Assets.FirstOrDefault(a => a.Id == streamingAssetId);
+                var streamingAsset = _context.Assets.Where(a => a.Id == streamingAssetId).FirstOrDefault();
                 var accessPolicy = _context.AccessPolicies.Create(streamingAsset.Name, TimeSpan.FromDays(daysForWhichStreamingUrlIsActive),
                                                          AccessPermissions.Read | AccessPermissions.List);
 
                 var assetFiles = streamingAsset.AssetFiles.ToList();
 
-                var streamingAssetFile = assetFiles.FirstOrDefault(f => f.Name.ToLower().EndsWith(".mp4"));
+                var streamingAssetFile = assetFiles.Where(f => f.Name.ToLower().EndsWith(".mp4")).FirstOrDefault();
                 if (streamingAssetFile != null)
                 {
                     var locator = _context.Locators.CreateLocator(LocatorType.Sas, streamingAsset, accessPolicy);
@@ -106,7 +106,7 @@ namespace AzureVideoStreaming.Core
                     mp4Url = uri.ToString();
                 }
 
-                streamingAssetFile = assetFiles.FirstOrDefault(f => f.Name.ToLower().EndsWith(".wmv"));
+                streamingAssetFile = assetFiles.Where(f => f.Name.ToLower().EndsWith(".wmv")).FirstOrDefault();
                 if (streamingAssetFile != null)
                 {
                     var locator = _context.Locators.CreateLocator(LocatorType.Sas, streamingAsset, accessPolicy);

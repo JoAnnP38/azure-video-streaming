@@ -43,14 +43,21 @@ namespace AzureVideoStreaming.Web.Controllers
         {
             if (file.ContentLength > 0)
             {
-                var fileName = Guid.NewGuid() + "-" + file.FileName;
+                var fileName = Guid.NewGuid() + "-" + Path.GetFileName(file.FileName);
                 var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
                 Directory.CreateDirectory(Server.MapPath("~/App_Data/uploads"));
                 file.SaveAs(path);
 
+                var videoRep = new VideoRepository();
+                var video = new Video("test", "Foo", "Bar", null, null, null, DateTime.Now);
+                videoRep.Add(video);
+
                 var videoService = new VideoService();
                 var asset = videoService.CreateAssetAndUploadSingleFile(path);
-                videoService.CreateEncodingJob(asset, path);
+                var job = videoService.CreateEncodingJob(asset, path);
+
+                var videoQueueRep = new VideoEncodingQueueRepository();
+                videoQueueRep.Add(new VideoEncodingQueue(video.VideoId, job.Id));
 
                 return path;
             }

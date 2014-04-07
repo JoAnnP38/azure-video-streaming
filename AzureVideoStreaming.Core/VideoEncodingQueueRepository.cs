@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace AzureVideoStreaming.Core
         {
             // Retrieve the storage account from the connection string.
            _storageAccount = CloudStorageAccount.Parse(
-               CloudConfigurationManager.GetSetting("StorageConnectionString"));
+               ConfigurationManager.AppSettings["StorageConnectionString"]);
 
             var client = _storageAccount.CreateCloudTableClient();
             var table = client.GetTableReference(TableStorageConstants.VideoEncodingQueueTableKey);

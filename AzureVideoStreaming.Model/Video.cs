@@ -10,8 +10,9 @@ namespace AzureVideoStreaming.Model
 {
     public class Video : TableEntity
     {
-
-        
+        public Video()
+        {
+        }
 
         public Video(string authorId, string title, string description, string urlMp4, string urlVc1, string thumbnailUrl, DateTime dateUploaded)
         {
