@@ -83,22 +83,41 @@ namespace AzureVideoStreaming.Core
             taskVc1.OutputAssets.AddNew("VC1 asset",
                 AssetCreationOptions.None);
 
+            const string configuration = @"<?xml version=""1.0"" encoding=""utf-16""?>
+<Thumbnail Size=""120,*"" Type=""Jpeg"" Filename=""{OriginalFilename}_{ThumbnailTime}.jpg"">
+  <Time Value=""0:0:0""/>
+  <Time Value=""0:0:3"" Step=""0:0:0.25"" Stop=""0:0:10""/>
+</Thumbnail>";
+
+            var thumbnailTask = job.Tasks.AddNew("Thumbnail",
+                processor,
+                configuration,
+                TaskOptions.ProtectedConfiguration);
+
+            // Specify the input asset to be encoded.
+            thumbnailTask.InputAssets.Add(asset);
+            // Add an output asset to contain the results of the job. 
+            // This output is specified as AssetCreationOptions.None, which 
+            // means the output asset is not encrypted. 
+            thumbnailTask.OutputAssets.AddNew("Thumbnail asset",
+                AssetCreationOptions.None);
+
             // Launch the job.
             job.Submit();
 
             return job;
         }
 
-        public JobState GetJobOutput(string jobId, out string mp4Url, out string vc1Url)
+        public JobState GetJobOutput(string jobId, out string mp4Url, out string vc1Url, out string thumbnailUrl)
         {
             var job = GetJob(jobId);
 
-            mp4Url = vc1Url = null;
+            mp4Url = vc1Url = thumbnailUrl = null;
 
             if (job.State == JobState.Finished)
             {
                 // Get a reference to the output asset from the job.
-                
+
                 foreach (var outputAsset in job.OutputMediaAssets)
                 {
                     var streamingAssetId = outputAsset.Id;
@@ -128,11 +147,18 @@ namespace AzureVideoStreaming.Core
                         vc1Url = uri.ToString();
                     }
 
+                    streamingAssetFile = assetFiles.Where(f => f.Name.ToLower().EndsWith(".jpg")).FirstOrDefault();
+                    if (streamingAssetFile != null)
+                    {
+                        var locator = _context.Locators.CreateLocator(LocatorType.Sas, streamingAsset, accessPolicy);
+                        var uri = new UriBuilder(locator.Path);
+                        uri.Path += "/" + streamingAssetFile.Name;
+                        thumbnailUrl = uri.ToString();
+                    }
                 }
             }
 
             return job.State;
-
         }
 
         private static IMediaProcessor GetLatestMediaProcessorByName(string mediaProcessorName)
