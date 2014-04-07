@@ -23,5 +23,14 @@ namespace AzureVideoStreaming.WebACS
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+#if DEBUG
+            System.IdentityModel.Services.FederatedAuthentication.WSFederationAuthenticationModule.Realm =
+                    (Request.IsSecureConnection ? "https://" : "http://")
+                    + HttpContext.Current.Request.Headers["Host"];
+#endif
+        }
     }
 }
