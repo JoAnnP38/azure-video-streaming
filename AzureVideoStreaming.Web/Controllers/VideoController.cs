@@ -16,7 +16,7 @@ namespace AzureVideoStreaming.Web.Controllers
 
         public VideoController()
         {
-           _videoRepository = new VideoRepository();
+            _videoRepository = new VideoRepository();
         }
 
         //
@@ -33,7 +33,7 @@ namespace AzureVideoStreaming.Web.Controllers
 
         public ActionResult GetAll()
         {
-            return Json(_videoRepository.GetAll(),JsonRequestBehavior.AllowGet);
+            return Json(_videoRepository.GetAll(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetLikes(string videoId, string userId)
@@ -54,8 +54,17 @@ namespace AzureVideoStreaming.Web.Controllers
         }
 
         [HttpPost]
-        public string Upload(HttpPostedFileBase file)
+        public string Upload(string title, string description, HttpPostedFileBase file)
         {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return "Please enter title";
+            }
+            else if (file == null)
+            {
+                return "Please select file";
+            }
+
             try
             {
                 if (file.ContentLength > 0)
@@ -66,7 +75,7 @@ namespace AzureVideoStreaming.Web.Controllers
                     file.SaveAs(path);
 
                     var videoRep = new VideoRepository();
-                    var video = new Video("test", "Foo", "Bar", null, null, null, DateTime.Now);
+                    var video = new Video("test", title, description, null, null, null, DateTime.Now);
                     videoRep.Add(video);
 
                     var videoService = new VideoService();
@@ -84,8 +93,8 @@ namespace AzureVideoStreaming.Web.Controllers
             {
                 return e.ToString();
             }
-            
-            
+
+
         }
-	}
+    }
 }
