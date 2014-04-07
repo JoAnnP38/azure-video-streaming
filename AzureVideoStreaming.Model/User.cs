@@ -9,6 +9,10 @@ namespace AzureVideoStreaming.Model
 {
     public class User : TableEntity
     {
+        public User()
+        {
+            
+        }
         public User(string name)
         {
             PartitionKey = TableStorageConstants.UserPartitionKey;
