@@ -256,6 +256,14 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureVideoStreaming.Core\AzureVideoStreaming.Core.csproj">
+      <Project>{8eada594-404e-4b38-9c8c-641c26cab1f9}</Project>
+      <Name>AzureVideoStreaming.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AzureVideoStreaming.Model\AzureVideoStreaming.Model.csproj">
+      <Project>{b1dd8d1b-5cbc-4f14-bc9a-b2a16c57cc69}</Project>
+      <Name>AzureVideoStreaming.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AzureVideoStreaming.WebJob\AzureVideoStreaming.WebJob.csproj">
       <Project>{825B191F-A3B2-4F83-A0DF-CD90A7021F75}</Project>
       <Name>AzureVideoStreaming.WebJob</Name>
