@@ -50,6 +50,16 @@ namespace AzureVideoStreaming.Core
             return video;
         }
 
+        public Video Update(Video video)
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.VideoTableKey);
+
+            var replaceOperation = TableOperation.InsertOrReplace(video);
+            table.Execute(replaceOperation);
+            return video;
+        }
+
         public IList<Video> GetAll()
         {
             var client = _storageAccount.CreateCloudTableClient();
@@ -57,7 +67,7 @@ namespace AzureVideoStreaming.Core
 
             TableQuery<Video> query = new TableQuery<Video>();
             return table.ExecuteQuery(query).ToList();
-
+            
         } 
 
 

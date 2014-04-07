@@ -49,6 +49,29 @@ namespace AzureVideoStreaming.Core
             TableQuery<VideoEncodingQueue> query = new TableQuery<VideoEncodingQueue>();
             return table.ExecuteQuery(query).ToList();
 
-        } 
+        }
+
+        public VideoEncodingQueue Get(string queueId)
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.VideoEncodingQueueTableKey);
+            var retrieveOperation = TableOperation.Retrieve<VideoEncodingQueue>(TableStorageConstants.VideoEncodingQueuePartitionKey, queueId);
+
+            var retrievedResult = table.Execute(retrieveOperation);
+
+            var entity = retrievedResult.Result as VideoEncodingQueue;
+            return entity;
+        }
+
+        public void Remove(string queueId)
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.VideoEncodingQueueTableKey);
+            var entity = Get(queueId);
+            if (entity == null) return;
+            var deleteOperation = TableOperation.Delete(entity);
+
+            table.Execute(deleteOperation);
+        }
     }
 }
