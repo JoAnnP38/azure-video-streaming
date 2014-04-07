@@ -69,11 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
     <Compile Include="VideoRepository.cs" />
-=======
     <Compile Include="VideoService.cs" />
->>>>>>> 8d3aa4e23f3c39cddc6a92d631e6c49ea3cc3c08
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
