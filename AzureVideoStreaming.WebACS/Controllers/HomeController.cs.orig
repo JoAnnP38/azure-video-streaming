@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using AzureVideoStreaming.Core;
 using AzureVideoStreaming.Model;
 
 namespace AzureVideoStreaming.WebACS.Content
@@ -13,21 +14,26 @@ namespace AzureVideoStreaming.WebACS.Content
     public class HomeController : Controller
     {
         private VideoRepository _videoRepository;
-        private UserRepository userRepository = null;
-
         //
         // GET: /Home/
         public HomeController()
         {
             _videoRepository = new VideoRepository();
+
+<<<<<<< HEAD
+        private UserRepository userRepository = null;
+
+        public HomeController()
+        {
             this.userRepository = new UserRepository();
-
         }
-       
 
+=======
+        }
+>>>>>>> acf04054c570583c83b19edb1be26f0dad6631d6
         public ActionResult Index()
         {
-            
+
             return View(_videoRepository.GetActive());
         }
 
@@ -78,7 +84,6 @@ namespace AzureVideoStreaming.WebACS.Content
 
         public ActionResult Register()
         {
-            return View();
         }
     }
 }

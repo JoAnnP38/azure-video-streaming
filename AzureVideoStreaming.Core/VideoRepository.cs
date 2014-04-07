@@ -27,6 +27,17 @@ namespace AzureVideoStreaming.Core
             client.GetTableReference(TableStorageConstants.CommentTableKey).CreateIfNotExists();
         }
 
+        public IList<Video> GetActive()
+        {
+            return
+                GetAll()
+                    .Where(
+                        v =>
+                            !string.IsNullOrEmpty(v.ThumbnailUrl) && !string.IsNullOrEmpty(v.UrlMp4) &&
+                            !string.IsNullOrEmpty(v.UrlVc1))
+                    .ToList();
+        }
+
         public Video Get(string videoId)
         {
             var client = _storageAccount.CreateCloudTableClient();
