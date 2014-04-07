@@ -34,7 +34,7 @@ namespace AzureVideoStreaming.Phone.ViewModels
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                // Create design time view services and models
+                SimpleIoc.Default.Register<IAzureVideoService, MockAzureVideoService>();
             }
             else
             {

@@ -32,14 +32,20 @@ namespace AzureVideoStreaming.Phone.ViewModels
             this.azureVideoService = azureVideoService;
             this.Videos = new ObservableCollection<Video>();
 
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+            if (IsInDesignMode)
+            {
+                var videos = azureVideoService.GetAllVideosAsync().Result;
+                this.Videos.Clear();
+
+                foreach(var video in videos)
+                {
+                    this.Videos.Add(video);
+                }
+            }
+            else
+            {
+                // Code runs "for real"
+            }
         }
 
         public ObservableCollection<Video> Videos
