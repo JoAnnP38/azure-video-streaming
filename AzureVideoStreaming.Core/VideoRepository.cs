@@ -43,7 +43,7 @@ namespace AzureVideoStreaming.Core
             var insertOperation = TableOperation.Insert(video);
             table.Execute(insertOperation);
 
-
+            return null;
         }
     }
 }
