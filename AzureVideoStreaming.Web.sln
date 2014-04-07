@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.Web", "AzureVideoStreaming.Web\AzureVideoStreaming.Web.csproj", "{80220ACF-832A-4DF8-9CD4-48879A4098A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{DE9877FB-A7B8-499E-A795-18FFD64B5E14}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebAppPublishModule.psm1 = PublishScripts\AzureWebAppPublishModule.psm1
+		PublishScripts\Publish-WebApplication.ps1 = PublishScripts\Publish-WebApplication.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{DE268C81-28B4-48AB-89E2-506126539EFC}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\AzureVideoStreamingWeb-WAWS-dev.json = PublishScripts\Configurations\AzureVideoStreamingWeb-WAWS-dev.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.Core", "..\AzureVideoStreaming.Core\AzureVideoStreaming.Core.csproj", "{8EADA594-404E-4B38-9C8C-641C26CAB1F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.Model", "AzureVideoStreaming.Model\AzureVideoStreaming.Model.csproj", "{B1DD8D1B-5CBC-4F14-BC9A-B2A16C57CC69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.WebJob", "AzureVideoStreaming.WebJob\AzureVideoStreaming.WebJob.csproj", "{825B191F-A3B2-4F83-A0DF-CD90A7021F75}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80220ACF-832A-4DF8-9CD4-48879A4098A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80220ACF-832A-4DF8-9CD4-48879A4098A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80220ACF-832A-4DF8-9CD4-48879A4098A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80220ACF-832A-4DF8-9CD4-48879A4098A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EADA594-404E-4B38-9C8C-641C26CAB1F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EADA594-404E-4B38-9C8C-641C26CAB1F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EADA594-404E-4B38-9C8C-641C26CAB1F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EADA594-404E-4B38-9C8C-641C26CAB1F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1DD8D1B-5CBC-4F14-BC9A-B2A16C57CC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1DD8D1B-5CBC-4F14-BC9A-B2A16C57CC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1DD8D1B-5CBC-4F14-BC9A-B2A16C57CC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1DD8D1B-5CBC-4F14-BC9A-B2A16C57CC69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{825B191F-A3B2-4F83-A0DF-CD90A7021F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{825B191F-A3B2-4F83-A0DF-CD90A7021F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{825B191F-A3B2-4F83-A0DF-CD90A7021F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{825B191F-A3B2-4F83-A0DF-CD90A7021F75}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DE268C81-28B4-48AB-89E2-506126539EFC} = {DE9877FB-A7B8-499E-A795-18FFD64B5E14}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\TransientFaultHandling.Core.5.1.1209.1\lib\NET4
+	EndGlobalSection
+EndGlobal
