@@ -11,6 +11,14 @@ namespace AzureVideoStreaming.Web.Controllers
 {
     public class VideoController : Controller
     {
+        private VideoRepository _videoRepository;
+
+
+        public VideoController()
+        {
+           _videoRepository = new VideoRepository();
+        }
+
         //
         // GET: /Video/
         public ActionResult Index()
@@ -20,17 +28,24 @@ namespace AzureVideoStreaming.Web.Controllers
 
         public ActionResult Get(string videoId)
         {
-            return Json(new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now), JsonRequestBehavior.AllowGet);
+            return Json(_videoRepository.Get(videoId), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetAll()
         {
-            return Json(new List<Video>() { new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now), new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now) }, JsonRequestBehavior.AllowGet);
+            return Json(_videoRepository.GetAll(),JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetLikes(string videoId)
+        public ActionResult GetLikes(string videoId, string userId)
         {
-            return Json(new { Count = 4, LikedByCurrentUser = true }, JsonRequestBehavior.AllowGet);
+            bool userLiked;
+            var likeCount = _videoRepository.LikesCount(videoId, userId, out userLiked);
+            return Json(new { Count = likeCount, LikedByCurrentUser = userLiked }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetComments(string videoId)
+        {
+            return Json(_videoRepository.GetComments(videoId), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Upload()
