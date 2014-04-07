@@ -1,9 +1,11 @@
-﻿@{
+﻿@model IList<AzureVideoStreaming.Model.Video>
+@{
     ViewBag.Title = "Index";
 }
 
 <h2>Latest videos</h2>
 <div>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -12,14 +14,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><img src="" style="width: 30px; height: 30px;" /></td>
-                <td>URL....</td>
-            </tr>
-            <tr>
-                <td><img src="" style="width: 30px; height: 30px;" /></td>
-                <td>URL2....</td>
-            </tr>
+            @foreach (var video in Model)
+            {
+                <tr>
+                    <td><img src="@video.ThumbnailUrl" style="width: 30px; height: 30px;" /></td>
+                    <td>@video.Title</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
