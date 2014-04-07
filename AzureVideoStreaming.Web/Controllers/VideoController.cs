@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AzureVideoStreaming.Core;
 using AzureVideoStreaming.Model;
 
 namespace AzureVideoStreaming.Web.Controllers
@@ -44,9 +45,14 @@ namespace AzureVideoStreaming.Web.Controllers
             {
                 var fileName = Guid.NewGuid().ToString();
                 var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                Directory.CreateDirectory(Server.MapPath("~/App_Data/uploads"));
                 file.SaveAs(path);
-                return path;
 
+                var videoService = new VideoService();
+                var asset = videoService.CreateAssetAndUploadSingleFile(path);
+                videoService.CreateEncodingJob(asset, path);
+
+                return path;
             }
             return "error";
             
