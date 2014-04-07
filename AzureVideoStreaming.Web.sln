@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.Web", "AzureVideoStreaming.Web\AzureVideoStreaming.Web.csproj", "{80220ACF-832A-4DF8-9CD4-48879A4098A6}"
 EndProject
@@ -25,6 +25,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.Phone", "AzureVideoStreaming.Phone\AzureVideoStreaming.Phone.csproj", "{3EC9B300-96C2-4162-9B37-782FB36F7042}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.WebACS", "AzureVideoStreaming.WebACS\AzureVideoStreaming.WebACS.csproj", "{66108FDF-D050-47F6-8A8C-2DC8A211C91D}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureVideoStreaming.Azure", "AzureVideoStreaming.Azure\AzureVideoStreaming.Azure.ccproj", "{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.Worker", "AzureVideoStreaming.Worker\AzureVideoStreaming.Worker.csproj", "{78CAC313-506A-4132-8A0A-04BFACB26D59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +98,22 @@ Global
 		{66108FDF-D050-47F6-8A8C-2DC8A211C91D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{66108FDF-D050-47F6-8A8C-2DC8A211C91D}.Release|ARM.ActiveCfg = Release|Any CPU
 		{66108FDF-D050-47F6-8A8C-2DC8A211C91D}.Release|x86.ActiveCfg = Release|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1E5D7428-7AC3-4697-BD65-CDD8BC87C623}.Release|x86.ActiveCfg = Release|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Release|ARM.ActiveCfg = Release|Any CPU
+		{78CAC313-506A-4132-8A0A-04BFACB26D59}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
