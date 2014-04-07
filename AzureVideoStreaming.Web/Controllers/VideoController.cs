@@ -43,7 +43,7 @@ namespace AzureVideoStreaming.Web.Controllers
         {
             if (file.ContentLength > 0)
             {
-                var fileName = Guid.NewGuid().ToString();
+                var fileName = Guid.NewGuid() + "-" + file.FileName;
                 var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
                 Directory.CreateDirectory(Server.MapPath("~/App_Data/uploads"));
                 file.SaveAs(path);

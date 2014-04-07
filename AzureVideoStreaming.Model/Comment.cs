@@ -9,6 +9,10 @@ namespace AzureVideoStreaming.Model
 {
     public class Comment : TableEntity
     {
+        public Comment()
+        {
+            
+        }
         public Comment(string videoId, string authorId, string text)
         {
             PartitionKey = videoId;

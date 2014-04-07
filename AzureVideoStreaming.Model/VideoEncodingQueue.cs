@@ -9,6 +9,10 @@ namespace AzureVideoStreaming.Model
 {
     public class VideoEncodingQueue : TableEntity
     {
+        public VideoEncodingQueue()
+        {
+            
+        }
         public VideoEncodingQueue(string videoId, string mediaServiceJobId)
         {
             RowKey = Guid.NewGuid().ToString();
