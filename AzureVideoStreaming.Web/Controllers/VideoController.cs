@@ -19,17 +19,17 @@ namespace AzureVideoStreaming.Web.Controllers
 
         public ActionResult Get(string videoId)
         {
-            return Json(new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now));
+            return Json(new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetAll()
         {
-            return Json(new List<Video>(){new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now), new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now)});
+            return Json(new List<Video>() { new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now), new Video("author", "title", "desc", "mp4", "vc1", "thumb", DateTime.Now) }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetLikes(string videoId)
         {
-            return Json(new {Count = 4, LikedByCurrentUser = true});
+            return Json(new { Count = 4, LikedByCurrentUser = true }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Upload()
