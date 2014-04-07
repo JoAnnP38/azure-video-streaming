@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,6 +30,26 @@ namespace AzureVideoStreaming.Web.Controllers
         public ActionResult GetLikes(string videoId)
         {
             return Json(new {Count = 4, LikedByCurrentUser = true});
+        }
+
+        public ActionResult Upload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public string Upload(HttpPostedFileBase file)
+        {
+            if (file.ContentLength > 0)
+            {
+                var fileName = Guid.NewGuid().ToString();
+                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                file.SaveAs(path);
+                return path;
+
+            }
+            return "error";
+            
         }
 	}
 }
