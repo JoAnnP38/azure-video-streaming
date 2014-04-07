@@ -29,7 +29,6 @@ namespace AzureVideoStreaming.Model
             DateUploaded = dateUploaded;
         }
 
-        public string VideoId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string UrlMp4 { get; set; }

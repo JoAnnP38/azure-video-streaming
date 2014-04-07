@@ -57,7 +57,7 @@ namespace AzureVideoStreaming.Web.Controllers
                 var job = videoService.CreateEncodingJob(asset, path);
 
                 var videoQueueRep = new VideoEncodingQueueRepository();
-                videoQueueRep.Add(new VideoEncodingQueue(video.VideoId, job.Id));
+                videoQueueRep.Add(new VideoEncodingQueue(video.RowKey, job.Id));
 
                 return path;
             }
