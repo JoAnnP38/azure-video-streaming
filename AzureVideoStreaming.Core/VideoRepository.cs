@@ -22,8 +22,9 @@ namespace AzureVideoStreaming.Core
                 ConfigurationManager.AppSettings["StorageConnectionString"]);
 
             var client = _storageAccount.CreateCloudTableClient();
-            var table = client.GetTableReference(TableStorageConstants.VideoTableKey);
-            table.CreateIfNotExists();
+            client.GetTableReference(TableStorageConstants.VideoTableKey).CreateIfNotExists();
+            client.GetTableReference(TableStorageConstants.LikeTableKey).CreateIfNotExists();
+            client.GetTableReference(TableStorageConstants.CommentTableKey).CreateIfNotExists();
         }
 
         public Video Get(string videoId)
@@ -68,6 +69,30 @@ namespace AzureVideoStreaming.Core
             TableQuery<Video> query = new TableQuery<Video>();
             return table.ExecuteQuery(query).ToList();
             
+        }
+
+        public int LikesCount(string videoId, string userId, out bool userLiked)
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.LikeTableKey);
+
+            TableQuery<Like> query = new TableQuery<Like>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, videoId));
+
+            var results = query.Execute().ToList();
+            userLiked = results.Any(l => l.AuthorId == userId);
+            
+            return results.Count();
+
+        }
+
+        public IList<Comment> GetComments(string videoId)
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.CommentTableKey);
+
+            TableQuery<Comment> query = new TableQuery<Comment>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, videoId));
+
+            return query.Execute().ToList();
         } 
 
 
