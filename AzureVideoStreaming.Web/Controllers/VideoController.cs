@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AzureVideoStreaming.Core;
@@ -13,10 +11,9 @@ namespace AzureVideoStreaming.Web.Controllers
     {
         private VideoRepository _videoRepository;
 
-
         public VideoController()
         {
-           _videoRepository = new VideoRepository();
+            _videoRepository = new VideoRepository();
         }
 
         //
@@ -33,7 +30,7 @@ namespace AzureVideoStreaming.Web.Controllers
 
         public ActionResult GetAll()
         {
-            return Json(_videoRepository.GetAll(),JsonRequestBehavior.AllowGet);
+            return Json(_videoRepository.GetAll(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetLikes(string videoId, string userId)
@@ -54,8 +51,17 @@ namespace AzureVideoStreaming.Web.Controllers
         }
 
         [HttpPost]
-        public string Upload(HttpPostedFileBase file)
+        public string Upload(string title, string description, HttpPostedFileBase file)
         {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return "Must enter title";
+            }
+            else if (file == null || string.IsNullOrWhiteSpace(file.FileName))
+            {
+                return "Must select file";
+            }
+
             if (file.ContentLength > 0)
             {
                 var fileName = Guid.NewGuid() + "-" + Path.GetFileName(file.FileName);
@@ -64,7 +70,7 @@ namespace AzureVideoStreaming.Web.Controllers
                 file.SaveAs(path);
 
                 var videoRep = new VideoRepository();
-                var video = new Video("test", "Foo", "Bar", null, null, null, DateTime.Now);
+                var video = new Video("test", title, description, null, null, null, DateTime.Now);
                 videoRep.Add(video);
 
                 var videoService = new VideoService();
@@ -76,8 +82,8 @@ namespace AzureVideoStreaming.Web.Controllers
 
                 return path;
             }
+
             return "error";
-            
         }
-	}
+    }
 }
