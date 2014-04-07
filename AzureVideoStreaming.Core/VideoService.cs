@@ -72,6 +72,25 @@ namespace AzureVideoStreaming.Core
             task.OutputAssets.AddNew("Output asset",
                 AssetCreationOptions.None);
 
+            const string configuration = @"<?xml version=""1.0"" encoding=""utf-16""?>
+<Thumbnail Size=""120,*"" Type=""Jpeg"" Filename=""{OriginalFilename}_{ThumbnailTime}.{DefaultExtension}"">
+  <Time Value=""0:0:0""/>
+  <Time Value=""0:0:3"" Step=""0:0:0.25"" Stop=""0:0:10""/>
+</Thumbnail>";
+
+            var thumbnailTask = job.Tasks.AddNew("Thumbnail",
+                processor,
+                configuration,
+                TaskOptions.ProtectedConfiguration);
+
+            // Specify the input asset to be encoded.
+            thumbnailTask.InputAssets.Add(asset);
+            // Add an output asset to contain the results of the job. 
+            // This output is specified as AssetCreationOptions.None, which 
+            // means the output asset is not encrypted. 
+            thumbnailTask.OutputAssets.AddNew("Thumbnail output asset",
+                AssetCreationOptions.None);
+
             // Launch the job.
             job.Submit();
 
