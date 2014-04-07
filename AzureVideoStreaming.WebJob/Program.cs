@@ -31,13 +31,14 @@ namespace AzureVideoStreaming.WebJob
 
             foreach (var queuedVideo in queued)
             {
-                string mp4Url, vc1Url;
-                if (videoService.GetJobOutput(queuedVideo.MediaServicesJobId, out mp4Url, out vc1Url) == JobState.Finished)
+                string mp4Url, vc1Url, thumbnailUrl;
+                if (videoService.GetJobOutput(queuedVideo.MediaServicesJobId, out mp4Url, out vc1Url, out thumbnailUrl) == JobState.Finished)
                 {
                     Console.WriteLine("Job finished: " + queuedVideo.MediaServicesJobId);
                     var video = videoRepository.Get(queuedVideo.VideoId);
                     video.UrlMp4 = mp4Url;
                     video.UrlVc1 = vc1Url;
+                    video.ThumbnailUrl = thumbnailUrl;
                     videoRepository.Update(video);
 
                     videoEncodingQueueRepository.Remove(queuedVideo.RowKey);
