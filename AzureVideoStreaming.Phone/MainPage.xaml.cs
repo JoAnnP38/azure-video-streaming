@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using AzureVideoStreaming.Phone.Resources;
+using AzureVideoStreaming.Phone.ViewModels;
 
 namespace AzureVideoStreaming.Phone
 {
@@ -20,6 +21,14 @@ namespace AzureVideoStreaming.Phone
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+        }
+
+        //code behind is OK. :)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            var viewModel = this.DataContext as MainViewModel;
+            viewModel.NavigatedToAsync(e);
         }
 
         // Sample code for building a localized ApplicationBar
