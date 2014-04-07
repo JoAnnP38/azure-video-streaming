@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AzureVideoStreaming.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,6 +12,13 @@ namespace AzureVideoStreaming.WebACS.Content
     {
         //
         // GET: /Home/
+
+        private UserRepository userRepository = null;
+
+        public HomeController()
+        {
+            this.userRepository = new UserRepository();
+        }
 
         public ActionResult Index()
         {
@@ -26,6 +34,10 @@ namespace AzureVideoStreaming.WebACS.Content
         {
             ViewBag.ClaimsIdentity = Thread.CurrentPrincipal.Identity;
             return View();
+        }
+
+        public ActionResult Register()
+        {
         }
     }
 }
