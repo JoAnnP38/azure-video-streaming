@@ -38,6 +38,8 @@ namespace AzureVideoStreaming.Core
                     .ToList();
         }
 
+      
+
         public Video Get(string videoId)
         {
             var client = _storageAccount.CreateCloudTableClient();
@@ -104,8 +106,30 @@ namespace AzureVideoStreaming.Core
             TableQuery<Comment> query = new TableQuery<Comment>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, videoId));
 
             return query.Execute().ToList();
-        } 
+        }
 
+        public Comment AddComment(Comment comment)
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.CommentTableKey);
 
+            var insertOperation = TableOperation.Insert(comment);
+            table.Execute(insertOperation);
+
+            return comment;
+
+        }
+
+        public Like AddLike(Like like)
+        {
+            var client = _storageAccount.CreateCloudTableClient();
+            var table = client.GetTableReference(TableStorageConstants.LikeTableKey);
+
+            var insertOperation = TableOperation.Insert(like);
+            table.Execute(insertOperation);
+
+            return like;
+
+        }
     }
 }

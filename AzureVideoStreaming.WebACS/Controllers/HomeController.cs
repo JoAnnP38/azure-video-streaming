@@ -103,15 +103,14 @@ namespace AzureVideoStreaming.WebACS.Content
             if (string.IsNullOrEmpty(token))
                 return View();
 
+            // Azure table storage ne voli forward slasheve
+            token = token.Replace('/', '_');
+
             var user = this.userRepository.Get(token);
             if (user != null)
                 return View();//user registered
 
-            var savedUser = this.userRepository.Add(new User()
-            {
-                Username = model.Username,
-                RowKey = token
-            });
+            var savedUser = this.userRepository.Add(new User(model.Username, token));
             if(savedUser!=null)
             {
                 FormsAuthentication.SetAuthCookie(model.Username, true);

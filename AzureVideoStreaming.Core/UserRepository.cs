@@ -16,6 +16,8 @@ namespace AzureVideoStreaming.Core
 
         public UserRepository()
         {
+
+
             // Retrieve the storage account from the connection string.
             _storageAccount = CloudStorageAccount.Parse(
                 ConfigurationManager.AppSettings["StorageConnectionString"]);
@@ -31,10 +33,12 @@ namespace AzureVideoStreaming.Core
             var table = client.GetTableReference(TableStorageConstants.UserTableKey);
             var retrieveOperation = TableOperation.Retrieve<User>(TableStorageConstants.UserPartitionKey, userId);
 
-            var retrievedResult = table.Execute(retrieveOperation);
+           
+                var retrievedResult = table.Execute(retrieveOperation);
+                var entity = retrievedResult.Result as User;
+                return entity;
 
-            var entity = retrievedResult.Result as User;
-            return entity;
+       
         }
 
         public IList<User> GetAll()
@@ -58,6 +62,7 @@ namespace AzureVideoStreaming.Core
 
             return user;
         }
+
 
     }
 }
