@@ -109,7 +109,10 @@ namespace AzureVideoStreaming.Phone.ViewModels
 
                 foreach (var video in listOfVideos)
                 {
-                    this.Videos.Add(video);
+                    if (!String.IsNullOrEmpty(video.ThumbnailUrl) && !String.IsNullOrEmpty(video.UrlVc1))
+                    {
+                        this.Videos.Add(video);
+                    }
                 }
             }
 
