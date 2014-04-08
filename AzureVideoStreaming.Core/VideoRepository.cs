@@ -117,7 +117,6 @@ namespace AzureVideoStreaming.Core
             table.Execute(insertOperation);
 
             return comment;
-
         }
 
         public Like AddLike(Like like)
@@ -129,7 +128,6 @@ namespace AzureVideoStreaming.Core
             table.Execute(insertOperation);
 
             return like;
-
         }
     }
 }

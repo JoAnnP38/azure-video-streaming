@@ -1,10 +1,22 @@
 ﻿@{
     ViewBag.Title = "Details";
 }
-@model AzureVideoStreaming.WebACS.Models.HomeDetailsVM 
+@model AzureVideoStreaming.WebACS.Models.HomeDetailsVM
 <h2>@Model.Video.Title</h2>
 <p>@Model.Video.DateUploaded</p>
 <p>@Model.Video.AuthorName</p>
+<p>@Model.Likes likes</p>
+<p>
+    <form method="post" role="form" action="~/home/like">
+        <input type="hidden" value="@Model.Video.RowKey" name="videoId"/>
+        <button type="submit" class="btn btn-default btn-success btn-lg"
+            @if (Model.AlreadyLiked)
+            {
+                @:disabled="disabled"
+            }
+                ><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
+    </form>
+</p>
 
 <div>
     <video width="400" height="400" controls>
@@ -22,14 +34,14 @@
                 <p>@item.CommentText</p>
                 <footer>@item.AuthorName</footer>
             </blockquote>
-        </div>         
+        </div>
         }
 
     </div>
 </div>
 <div>
     <h3>Add comment</h3>
-    <form  method="post" role="form">
+    <form method="post" role="form">
         <div class="form-group">
             <label for="comment">Comment:</label>
             <input type="text" class="form-control" id="comment" name="comment" placeholder="Enter your comment">

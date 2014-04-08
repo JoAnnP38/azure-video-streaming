@@ -30,6 +30,13 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureVideoStreaming.Azure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureVideoStreaming.Worker", "AzureVideoStreaming.Worker\AzureVideoStreaming.Worker.csproj", "{78CAC313-506A-4132-8A0A-04BFACB26D59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A4B79174-95B0-40C3-94E0-68191FECEE87}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

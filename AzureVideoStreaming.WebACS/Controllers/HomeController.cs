@@ -1,6 +1,5 @@
 ﻿using AzureVideoStreaming.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -8,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using AzureVideoStreaming.Model;
 using AzureVideoStreaming.WebACS.Models;
-using System.Web.Security;
 using AzureVideoStreaming.WebACS.Helpers;
 
 namespace AzureVideoStreaming.WebACS.Content
@@ -25,7 +23,7 @@ namespace AzureVideoStreaming.WebACS.Content
             _videoRepository = new VideoRepository();
             this.userRepository = new UserRepository();
         }
-       
+
 
         public ActionResult Index()
         {
@@ -103,9 +101,9 @@ namespace AzureVideoStreaming.WebACS.Content
             var token = IdentityHelper.GetUserToken();
             if (string.IsNullOrEmpty(token))
                 return View();
-            
+
             var savedUser = this.userRepository.Add(new User(model.Username, token));
-            if(savedUser!=null)
+            if (savedUser != null)
             {
                 return RedirectToAction("Index");
             }
@@ -123,18 +121,38 @@ namespace AzureVideoStreaming.WebACS.Content
             var model = new HomeDetailsVM();
             model.Video = video;
             model.Comments = this._videoRepository.GetComments(videoId).ToList();
+            var user = IdentityHelper.GetUserFromIdentity();
+            bool alreadyLiked = false;
+            model.Likes = this._videoRepository.LikesCount(videoId, IdentityHelper.GetUserToken(), out alreadyLiked);
+            model.AlreadyLiked = alreadyLiked;
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Details(HomeDetailsVM model)
         {
-            if(string.IsNullOrEmpty(model.Comment))
+            if (string.IsNullOrEmpty(model.Comment))
                 return RedirectToAction("Details", new { videoId = model.VideoId });
 
             var user = IdentityHelper.GetUserFromIdentity();
             var comment = new Comment(model.VideoId, IdentityHelper.GetUserToken(), model.Comment, user.Username);
             this._videoRepository.AddComment(comment);
             return RedirectToAction("Details", new { videoId = model.VideoId });
+        }
+
+        [HttpPost]
+        public ActionResult Like(string videoId)
+        {
+            bool alreadyLiked;
+            _videoRepository.LikesCount(videoId, IdentityHelper.GetUserToken(), out alreadyLiked);
+            if (!alreadyLiked)
+            {
+                var like = new Like(videoId, IdentityHelper.GetUserToken());
+                _videoRepository.AddLike(like);
+
+            }
+
+            return RedirectToAction("Details", new { videoId = videoId });
         }
     }
 }
