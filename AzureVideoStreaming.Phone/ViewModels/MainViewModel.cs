@@ -1,8 +1,12 @@
 using AzureVideoStreaming.Phone.Models;
 using AzureVideoStreaming.Phone.Services;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Microsoft.Phone.Controls;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Navigation;
 
 namespace AzureVideoStreaming.Phone.ViewModels
@@ -30,6 +34,7 @@ namespace AzureVideoStreaming.Phone.ViewModels
         public MainViewModel(IAzureVideoService azureVideoService)
         {
             this.azureVideoService = azureVideoService;
+            this.GoToVideoCommand = new RelayCommand(NavigateToVideoDetailPage);
             this.Videos = new ObservableCollection<Video>();
 
             if (IsInDesignMode)
@@ -46,6 +51,12 @@ namespace AzureVideoStreaming.Phone.ViewModels
             {
                 // Code runs "for real"
             }
+        }
+
+        public ICommand GoToVideoCommand
+        {
+            get;
+            private set;
         }
 
         public ObservableCollection<Video> Videos
@@ -70,6 +81,12 @@ namespace AzureVideoStreaming.Phone.ViewModels
             {
                 this.Videos.Add(video);
             }
+        }
+
+        private void NavigateToVideoDetailPage()
+        {
+            var frame = (PhoneApplicationFrame)((App.Current as App).RootVisual);
+            frame.Navigate(new Uri("/VideoDetailPage.xaml", UriKind.Relative));
         }
     }
 }
