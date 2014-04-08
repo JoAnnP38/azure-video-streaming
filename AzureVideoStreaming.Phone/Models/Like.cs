@@ -13,7 +13,7 @@ namespace AzureVideoStreaming.Phone.Models
 
         }
 
-        public string AuthorId { get; set; }
-        public string VideoId { get; set; }
+        public int Count { get; set; }
+        public bool LikedByCurrentUser { get; set; }
     }
 }

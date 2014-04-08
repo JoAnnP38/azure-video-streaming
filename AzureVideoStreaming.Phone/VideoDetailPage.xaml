@@ -55,22 +55,22 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="24,0" DataContext="{Binding Video}">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="24,0,24,24" DataContext="{Binding Video}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <MediaElement Source="{Binding UrlVc1}" 
                               AutoPlay="True" VerticalAlignment="Top" MaxHeight="320"/>
             <StackPanel Grid.Row="1" Margin="0,6">
                 <TextBlock Text="{Binding Title}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" 
-                               TextWrapping="Wrap" TextTrimming="WordEllipsis" MaxHeight="68" />
+                           TextWrapping="Wrap" TextTrimming="WordEllipsis" MaxHeight="68" />
                 <TextBlock Text="{Binding Description}" FontSize="{StaticResource PhoneFontSizeNormal}"
-                               Margin="0,6" TextWrapping="Wrap" Foreground="{StaticResource PhoneSubtleBrush}"/>
+                           Margin="0,6" TextWrapping="Wrap" Foreground="{StaticResource PhoneSubtleBrush}"/>
             </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="-12,0" Visibility="{Binding HasLikes, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="-12,0" DataContext="{Binding ElementName=LayoutRoot, Path=DataContext}"  Visibility="{Binding HasLikes, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Path Data="F1M150.4,316.984C150.4,316.984 153.286,316.247 155.865,312.808 156.909,311.334 157.83,308.633 158.506,306.238 159.12,304.886 158.936,304.271 161.822,303.105 163.664,302.062 166.551,299.912 167.84,296.473 168.208,294.938 167.687,291.52 170.481,291.561 173.398,291.618 173.613,294.57 173.797,296.597 173.551,300.219 170.727,303.719 170.727,303.719L168.27,307.712C168.27,307.712 169.184,307.659 172.078,307.821 174.374,307.948 176.777,307.531 179.999,308.51 187.307,312.195 181.104,314.774 181.104,314.774 185.096,317.659 181.534,320.73 181.534,320.73 184.053,325.274 179.941,326.219 180.184,326.257 180.982,326.379 183.745,329.266 179.017,331.783 179.017,331.783 173.858,334.057 171.033,334.057 169.191,334.363 163.91,334.425 159.919,332.766 155.19,331.968 154.275,332.484 150.345,333.221L150.4,316.984z" Stretch="Uniform" Fill="#FFFFFFFF" Width="44" Height="44" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                     <Path.RenderTransform>
                         <TransformGroup>
@@ -83,11 +83,11 @@
                 </Path>
                 <TextBlock FontSize="{StaticResource PhoneFontSizeNormal}"
                                Margin="0,8" TextWrapping="Wrap">
-                        <Run Text="{Binding Likes.Count}" />
+                        <Run Text="{Binding Like.Count}" />
                         <Run Text="likes" />
                 </TextBlock>
             </StackPanel>
-            <phone:LongListSelector Grid.Row="3" LayoutMode="List" ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.Comments}">
+            <phone:LongListSelector Grid.Row="3" Margin="0,12,0,0" LayoutMode="List" ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.Comments}">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

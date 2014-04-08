@@ -60,5 +60,10 @@ namespace AzureVideoStreaming.Phone.Services
         {
             return Task.FromResult<List<Comment>>(null);
         }
+
+        public Task<Like> GetLikes(string id, string userId = null)
+        {
+            return Task.FromResult<Like>(null);
+        }
     }
 }

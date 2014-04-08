@@ -10,6 +10,7 @@ namespace AzureVideoStreaming.Phone.Services
     public interface IAzureVideoService
     {
         Task<List<Video>> GetAllVideosAsync();
+        Task<Like> GetLikes(string id, string userId = null);
         Task<Video> GetVideoAsync(string id);
         Task<List<Comment>> GetCommentsAsync(string id);
     }

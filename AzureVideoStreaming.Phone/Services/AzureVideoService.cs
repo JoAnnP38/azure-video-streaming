@@ -37,6 +37,18 @@ namespace AzureVideoStreaming.Phone.Services
             }
         }
 
+        public async Task<Like> GetLikes(string id, string userId = null)
+        {
+            var requestUrl = baseUrl + String.Format("Video/GetLikes?videoid={0}&userid=null", id);
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(requestUrl);
+                response.EnsureSuccessStatusCode();
+                var responseContentAsString = await response.Content.ReadAsStringAsync();
+                return await JsonConvert.DeserializeObjectAsync<Like>(responseContentAsString);
+            }
+        }
+
         public async Task<Video> GetVideoAsync(string id)
         {
             var requestUrl = baseUrl + String.Format("Video/Get?videoid={0}", id);

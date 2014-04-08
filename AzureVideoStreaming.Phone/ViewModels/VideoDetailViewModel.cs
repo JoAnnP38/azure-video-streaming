@@ -19,6 +19,8 @@ namespace AzureVideoStreaming.Phone.ViewModels
         private IAzureVideoService azureVideoService;
         private List<Comment> comments;
         private bool isLoading;
+        private bool hasLikes = false;
+        private Like like;
         private Video video;
 
         /// <summary>
@@ -43,6 +45,19 @@ namespace AzureVideoStreaming.Phone.ViewModels
             }
         }
 
+        public bool HasLikes
+        {
+            get
+            {
+                return hasLikes;
+            }
+            set
+            {
+                this.hasLikes = value;
+                base.RaisePropertyChanged("HasLikes");
+            }
+        }
+
         public bool IsLoading
         {
             get
@@ -53,6 +68,19 @@ namespace AzureVideoStreaming.Phone.ViewModels
             {
                 this.isLoading = value;
                 base.RaisePropertyChanged("IsLoading");
+            }
+        }
+
+        public Like Like
+        {
+            get
+            {
+                return like;
+            }
+            set
+            {
+                this.like = value;
+                base.RaisePropertyChanged("Like");
             }
         }
 
@@ -71,6 +99,11 @@ namespace AzureVideoStreaming.Phone.ViewModels
 
         public async Task NavigatedToAsync(NavigationEventArgs e, IDictionary<string,string> param = null)
         {
+            this.HasLikes = false;
+            this.Comments = null;
+            this.Video = null;
+            this.Like = null;
+
             Video video = null;
             string id = null;
             if (param != null)
@@ -101,6 +134,22 @@ namespace AzureVideoStreaming.Phone.ViewModels
             try
             {
                 this.Comments = await this.azureVideoService.GetCommentsAsync(id);
+            }
+            catch
+            {
+                this.IsLoading = false;
+            }
+            finally
+            {
+            }
+
+            try
+            {
+                this.Like = await this.azureVideoService.GetLikes(id, null);
+                if (this.Like != null && this.Like.Count > 0)
+                {
+                    this.HasLikes = true;
+                }
             }
             catch
             {
