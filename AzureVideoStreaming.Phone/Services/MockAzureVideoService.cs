@@ -51,7 +51,7 @@ namespace AzureVideoStreaming.Phone.Services
             return Task.FromResult<List<Video>>(videos);
         }
 
-        public Task<Video> GetVideosAsync(string id)
+        public Task<Video> GetVideoAsync(string id)
         {
             return Task.FromResult<Video>(null);
         }
