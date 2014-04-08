@@ -112,5 +112,26 @@ namespace AzureVideoStreaming.WebACS.Content
             else
                 return View();
         }
+
+        [HttpGet]
+        public ActionResult Details(string videoId)
+        {
+            var video = this._videoRepository.Get(videoId);
+            if (video == null)
+                return new HttpNotFoundResult();
+
+            var model = new HomeDetailsVM();
+            model.Video = video;
+            model.Comments = this._videoRepository.GetComments(videoId).ToList();
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Details(HomeDetailsVM model)
+        {
+            var user = IdentityHelper.GetUserFromIdentity();
+            var comment = new Comment(model.VideoId, IdentityHelper.GetUserToken(), model.Comment, user.Username);
+            this._videoRepository.AddComment(comment);
+            return RedirectToAction("Details", new { videoId = model.VideoId });
+        }
     }
 }

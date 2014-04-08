@@ -91,7 +91,7 @@ namespace AzureVideoStreaming.Core
 
             TableQuery<Like> query = new TableQuery<Like>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, videoId));
 
-            var results = query.Execute().ToList();
+            var results = table.ExecuteQuery(query).ToList();
             userLiked = results.Any(l => l.AuthorId == userId);
             
             return results.Count();
@@ -105,7 +105,7 @@ namespace AzureVideoStreaming.Core
 
             TableQuery<Comment> query = new TableQuery<Comment>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, videoId));
 
-            return query.Execute().ToList();
+            return table.ExecuteQuery(query).ToList();
         }
 
         public Comment AddComment(Comment comment)

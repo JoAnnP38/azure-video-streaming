@@ -19,12 +19,6 @@ namespace AzureVideoStreaming.Web.Controllers
            _videoRepository = new VideoRepository();
         }
 
-        //
-        // GET: /Video/
-        public ActionResult Index(string videoId)
-        {
-            return View(_videoRepository.Get(videoId));
-        }
 
         public ActionResult Get(string videoId)
         {

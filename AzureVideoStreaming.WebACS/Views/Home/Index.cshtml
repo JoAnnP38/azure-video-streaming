@@ -17,7 +17,7 @@
             @foreach (var video in Model)
             {
                 <tr>
-                    <td><img src="@video.ThumbnailUrl" style="width: 30px; height: 30px;" /></td>
+                    <td><a href="@Url.Action("Details", "Home", new { videoId = video.RowKey })"><img src="@video.ThumbnailUrl" style="width: 30px; height: 30px;" /></a></td>
                     <td>@video.Title</td>
                 </tr>
             }

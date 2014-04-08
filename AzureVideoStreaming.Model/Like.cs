@@ -9,6 +9,10 @@ namespace AzureVideoStreaming.Model
 {
     public class Like : TableEntity
     {
+        public Like()
+        {
+
+        }
         public Like(string videoId, string authorId)
         {
             PartitionKey = videoId;
