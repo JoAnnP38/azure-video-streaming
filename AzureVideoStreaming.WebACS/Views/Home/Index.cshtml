@@ -5,22 +5,15 @@
 
 <h2>Latest videos</h2>
 <div>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>Thumbnail</td>
-                <td>Video</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var video in Model)
-            {
-                <tr>
-                    <td><a href="@Url.Action("Details", "Home", new { videoId = video.RowKey })"><img src="@video.ThumbnailUrl" style="width: 30px; height: 30px;" /></a></td>
-                    <td>@video.Title</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var video in Model)
+    {
+        <div style="height: 130px; float: left;">
+            <div style="width: 120px; height: 120px; margin: 10px;">
+                <div><a href="@Url.Action("Details", "Home", new { videoId = video.RowKey })"><img src="@video.ThumbnailUrl" style="width: 120px; max-height: 120px;" /></a></div>
+            </div>
+            <div>
+                <h4>@video.Title</h4>
+            </div>
+        </div>
+    }
 </div>

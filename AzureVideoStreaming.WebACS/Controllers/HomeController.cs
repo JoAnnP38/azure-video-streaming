@@ -128,6 +128,9 @@ namespace AzureVideoStreaming.WebACS.Content
         [HttpPost]
         public ActionResult Details(HomeDetailsVM model)
         {
+            if(string.IsNullOrEmpty(model.Comment))
+                return RedirectToAction("Details", new { videoId = model.VideoId });
+
             var user = IdentityHelper.GetUserFromIdentity();
             var comment = new Comment(model.VideoId, IdentityHelper.GetUserToken(), model.Comment, user.Username);
             this._videoRepository.AddComment(comment);
