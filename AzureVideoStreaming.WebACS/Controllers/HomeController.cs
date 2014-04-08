@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using AzureVideoStreaming.Model;
 using AzureVideoStreaming.WebACS.Models;
 using System.Web.Security;
+using AzureVideoStreaming.WebACS.Helpers;
 
 namespace AzureVideoStreaming.WebACS.Content
 {
@@ -23,20 +24,19 @@ namespace AzureVideoStreaming.WebACS.Content
         {
             _videoRepository = new VideoRepository();
             this.userRepository = new UserRepository();
-
         }
        
 
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated && string.IsNullOrEmpty(User.Identity.Name))
+            if (!IdentityHelper.IsUserRegistered())
                 return RedirectToAction("Register");
             return View(_videoRepository.GetActive());
         }
 
         public ActionResult Upload()
         {
-            if (User.Identity.IsAuthenticated && string.IsNullOrEmpty(User.Identity.Name))
+            if (!IdentityHelper.IsUserRegistered())
                 return RedirectToAction("Register");
             return View();
         }
@@ -44,7 +44,7 @@ namespace AzureVideoStreaming.WebACS.Content
         [HttpPost]
         public ActionResult Upload(string title, string description, HttpPostedFileBase file)
         {
-            if (User.Identity.IsAuthenticated && string.IsNullOrEmpty(User.Identity.Name))
+            if (!IdentityHelper.IsUserRegistered())
                 return RedirectToAction("Register");
             try
             {
@@ -86,34 +86,27 @@ namespace AzureVideoStreaming.WebACS.Content
         [HttpGet]
         public ActionResult Register()
         {
+            if (IdentityHelper.IsUserRegistered())
+                return RedirectToAction("Index");
             return View();
         }
 
         [HttpPost]
         public ActionResult Register(HomeRegisterVM model)
         {
+            if (IdentityHelper.IsUserRegistered())
+                return RedirectToAction("Index");
+
             if (!ModelState.IsValid)
                 return View();
 
-            var identity = Thread.CurrentPrincipal.Identity as System.Security.Claims.ClaimsIdentity;
-            var claim = identity.Claims.FirstOrDefault(t => t.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-            string token = "";
-            if (claim != null)
-                token = claim.Value;
+            var token = IdentityHelper.GetUserToken();
             if (string.IsNullOrEmpty(token))
                 return View();
-
-            // Azure table storage ne voli forward slasheve
-            token = token.Replace('/', '_');
-
-            var user = this.userRepository.Get(token);
-            if (user != null)
-                return View();//user registered
-
+            
             var savedUser = this.userRepository.Add(new User(model.Username, token));
             if(savedUser!=null)
             {
-                FormsAuthentication.SetAuthCookie(model.Username, true);
                 return RedirectToAction("Index");
             }
             else
