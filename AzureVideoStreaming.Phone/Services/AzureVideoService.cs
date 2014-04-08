@@ -11,12 +11,8 @@ namespace AzureVideoStreaming.Phone.Services
 {
     public class AzureVideoService : IAzureVideoService
     {
-#if DEBUG
-        private readonly string baseUrl = "http://172.16.1.156:10682/";
-#else
-        private readonly string baseUrl = "http://localhost:10682/";
-#endif
-
+        private readonly string baseUrl = "http://azurevideostreaming.cloudapp.net/";
+        //private readonly string baseUrl = "http://localhost:10682/";
         public async Task<List<Video>> GetAllVideosAsync()
         {
             var requestUrl = baseUrl + "Video/GetAll";
