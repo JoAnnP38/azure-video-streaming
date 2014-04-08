@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Phone.Controls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -26,6 +27,7 @@ namespace AzureVideoStreaming.Phone.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly IAzureVideoService azureVideoService;
+        private bool isLoading;
         private ObservableCollection<Video> videos;
 
         /// <summary>
@@ -35,6 +37,7 @@ namespace AzureVideoStreaming.Phone.ViewModels
         {
             this.azureVideoService = azureVideoService;
             this.GoToVideoCommand = new RelayCommand(NavigateToVideoDetailPage);
+            this.IsLoading = true;
             this.Videos = new ObservableCollection<Video>();
 
             if (IsInDesignMode)
@@ -59,6 +62,19 @@ namespace AzureVideoStreaming.Phone.ViewModels
             private set;
         }
 
+        public bool IsLoading
+        {
+            get
+            {
+                return isLoading;
+            }
+            set
+            {
+                this.isLoading = value;
+                base.RaisePropertyChanged("IsLoading");
+            }
+        }
+
         public ObservableCollection<Video> Videos
         {
             get
@@ -74,12 +90,28 @@ namespace AzureVideoStreaming.Phone.ViewModels
 
         public async Task NavigatedToAsync(NavigationEventArgs e)
         {
-            var listOfVideos = await this.azureVideoService.GetAllVideosAsync();
-            this.Videos.Clear();
-
-            foreach(var video in listOfVideos)
+            List<Video> listOfVideos = null;
+            try
             {
-                this.Videos.Add(video);
+                listOfVideos = await this.azureVideoService.GetAllVideosAsync();
+            }
+            catch
+            {
+                
+            }
+            finally
+            {
+                this.IsLoading = false;
+            }
+
+            if (listOfVideos != null)
+            {
+                this.Videos.Clear();
+
+                foreach (var video in listOfVideos)
+                {
+                    this.Videos.Add(video);
+                }
             }
         }
 

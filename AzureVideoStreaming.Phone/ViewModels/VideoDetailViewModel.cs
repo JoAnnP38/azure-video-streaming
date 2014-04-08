@@ -11,11 +11,26 @@ namespace AzureVideoStreaming.Phone.ViewModels
     /// </summary>
     public class VideoDetailViewModel : ViewModelBase
     {
+        private bool isLoading;
+
         /// <summary>
         /// Initializes a new instance of the VideoDetailViewModel class.
         /// </summary>
         public VideoDetailViewModel(IAzureVideoService azureVideoService)
         {
+        }
+
+        public bool IsLoading
+        {
+            get
+            {
+                return isLoading;
+            }
+            set
+            {
+                this.isLoading = value;
+                base.RaisePropertyChanged("IsLoading");
+            }
         }
     }
 }

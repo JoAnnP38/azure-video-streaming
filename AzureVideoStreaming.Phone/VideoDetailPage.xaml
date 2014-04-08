@@ -15,6 +15,12 @@
     shell:SystemTray.IsVisible="True"
     DataContext="{Binding VideoDetail, Source={StaticResource Locator}}">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="True" 
+                                 IsVisible="{Binding IsLoading}" 
+                                 Text="Učitavanje" />
+    </shell:SystemTray.ProgressIndicator>
+
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
