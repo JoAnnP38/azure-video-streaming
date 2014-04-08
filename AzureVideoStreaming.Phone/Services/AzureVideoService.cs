@@ -24,5 +24,17 @@ namespace AzureVideoStreaming.Phone.Services
                 return await JsonConvert.DeserializeObjectAsync<List<Video>>(responseContentAsString);
             }
         }
+
+        public async Task<Video> GetVideoAsync(string id)
+        {
+            var requestUrl = baseUrl + String.Format("Video/Get?videoid={0}", id);
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(requestUrl);
+                response.EnsureSuccessStatusCode();
+                var responseContentAsString = await response.Content.ReadAsStringAsync();
+                return await JsonConvert.DeserializeObjectAsync<Video>(responseContentAsString);
+            }
+        }
     }
 }
