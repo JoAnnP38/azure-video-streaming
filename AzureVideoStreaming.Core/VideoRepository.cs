@@ -105,7 +105,7 @@ namespace AzureVideoStreaming.Core
 
             TableQuery<Comment> query = new TableQuery<Comment>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, videoId));
 
-            return table.ExecuteQuery(query).ToList();
+            return table.ExecuteQuery(query).OrderBy(e => e.Timestamp).ToList();
         }
 
         public Comment AddComment(Comment comment)
