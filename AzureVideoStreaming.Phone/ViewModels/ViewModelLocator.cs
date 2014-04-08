@@ -44,6 +44,7 @@ namespace AzureVideoStreaming.Phone.ViewModels
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<VideoDetailViewModel>();
         }
 
         public MainViewModel Main
