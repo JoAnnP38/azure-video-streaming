@@ -11,5 +11,6 @@ namespace AzureVideoStreaming.Phone.Services
     {
         Task<List<Video>> GetAllVideosAsync();
         Task<Video> GetVideoAsync(string id);
+        Task<List<Comment>> GetCommentsAsync(string id);
     }
 }

@@ -55,5 +55,10 @@ namespace AzureVideoStreaming.Phone.Services
         {
             return Task.FromResult<Video>(null);
         }
+
+        public Task<List<Comment>> GetCommentsAsync(string id)
+        {
+            return Task.FromResult<List<Comment>>(null);
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace AzureVideoStreaming.Phone.ViewModels
     public class VideoDetailViewModel : ViewModelBase
     {
         private IAzureVideoService azureVideoService;
+        private List<Comment> comments;
         private bool isLoading;
         private Video video;
 
@@ -27,6 +28,19 @@ namespace AzureVideoStreaming.Phone.ViewModels
         {
             this.azureVideoService = azureVideoService;
             this.IsLoading = true;
+        }
+
+        public List<Comment> Comments
+        {
+            get
+            {
+                return comments;
+            }
+            set
+            {
+                comments = value;
+                RaisePropertyChanged("Comments");
+            }
         }
 
         public bool IsLoading
@@ -75,6 +89,18 @@ namespace AzureVideoStreaming.Phone.ViewModels
             try
             {
                 this.Video = await this.azureVideoService.GetVideoAsync(id);
+            }
+            catch
+            {
+                this.IsLoading = false;
+            }
+            finally
+            {
+            }
+
+            try
+            {
+                this.Comments = await this.azureVideoService.GetCommentsAsync(id);
             }
             catch
             {
