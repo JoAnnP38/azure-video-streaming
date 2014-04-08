@@ -82,11 +82,12 @@
             <phone:LongListSelector.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="6">
-                        <Image Source="{Binding ThumbnailUrl}" 
+                        <Image Name="ThumbImage" Source="{Binding ThumbnailUrl}" 
                                Stretch="UniformToFill" toolkit:TiltEffect.IsTiltEnabled="True">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Tap">
-                                    <mvvmlight:EventToCommand Command="{Binding Mode=OneWay, Path=DataContext.GoToVideoCommand, ElementName=VideoThumbnails}" />
+                                    <mvvmlight:EventToCommand Command="{Binding Mode=OneWay, Path=DataContext.GoToVideoCommand, ElementName=VideoThumbnails}" 
+                                                              CommandParameter="{Binding }"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Image>

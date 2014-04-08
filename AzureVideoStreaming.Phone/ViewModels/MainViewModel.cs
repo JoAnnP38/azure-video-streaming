@@ -36,7 +36,7 @@ namespace AzureVideoStreaming.Phone.ViewModels
         public MainViewModel(IAzureVideoService azureVideoService)
         {
             this.azureVideoService = azureVideoService;
-            this.GoToVideoCommand = new RelayCommand(NavigateToVideoDetailPage);
+            this.GoToVideoCommand = new RelayCommand<object>(NavigateToVideoDetailPage);
             this.IsLoading = true;
             this.Videos = new ObservableCollection<Video>();
 
@@ -97,11 +97,10 @@ namespace AzureVideoStreaming.Phone.ViewModels
             }
             catch
             {
-                
+                this.IsLoading = false;
             }
             finally
             {
-                this.IsLoading = false;
             }
 
             if (listOfVideos != null)
@@ -113,12 +112,15 @@ namespace AzureVideoStreaming.Phone.ViewModels
                     this.Videos.Add(video);
                 }
             }
+
+            this.IsLoading = false;
         }
 
-        private void NavigateToVideoDetailPage()
+        private void NavigateToVideoDetailPage(object param = null)
         {
+            var video = param as Video;
             var frame = (PhoneApplicationFrame)((App.Current as App).RootVisual);
-            frame.Navigate(new Uri("/VideoDetailPage.xaml", UriKind.Relative));
+            frame.Navigate(new Uri(String.Format("/VideoDetailPage.xaml?id={0}", video.RowKey), UriKind.Relative));
         }
     }
 }

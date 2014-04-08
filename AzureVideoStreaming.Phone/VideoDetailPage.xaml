@@ -55,19 +55,19 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <ScrollViewer Grid.Row="1" Margin="24,0">
+        <ScrollViewer Grid.Row="1" Margin="24,0" DataContext="{Binding Video}">
             <Grid x:Name="ContentPanel">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <MediaElement Source="http://mschannel9.vo.msecnd.net/o9/mix/09/wmv/key01.wmv" 
+                <MediaElement Source="{Binding UrlVc1}" 
                               AutoPlay="True" VerticalAlignment="Top" MaxHeight="320"/>
                 <StackPanel Grid.Row="1" Margin="0,6">
-                    <TextBlock Text="Hello World I am a video" FontSize="{StaticResource PhoneFontSizeMediumLarge}" 
+                    <TextBlock Text="{Binding Title}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" 
                                TextWrapping="Wrap" TextTrimming="WordEllipsis" MaxHeight="68" />
-                    <TextBlock Text="and this is my description and this is my description and this is my description and this is my description and this is my description and this is my description and this is my description and this is my description " FontSize="{StaticResource PhoneFontSizeNormal}"
+                    <TextBlock Text="{Binding Description}" FontSize="{StaticResource PhoneFontSizeNormal}"
                                Margin="0,6" TextWrapping="Wrap" Foreground="{StaticResource PhoneSubtleBrush}"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="-12,0">
